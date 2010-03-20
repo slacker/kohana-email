@@ -15,9 +15,9 @@ Creates SwiftMailer object. $config is an array of configuration values and defa
 
 Note: PopBeforeSmtp is not supported in this release as I didn't know what was required to set it up.
 It IS supported in Swiftmailer through the Swift_Plugins_PopBeforeSmtpPlugin plugin class. This can be used manually if required.
-If anyone can modify and test the connect() methd with this functionality I'll add it but I can't find documentation about how it used to work (i.e. is expected to work) so I have left it out for now.
+If anyone can modify and test the connect() method with this functionality I'll add it but I can't find documentation about how it used to work (i.e. is expected to work) so I have left it out for now.
 
-### Email::send($to, $from, $subject, $message, $html = false)
+### Email::send($to, $from, $subject, $message, $html = false, $attachments=NULL)
 
 $to can be any of the following:
 
@@ -26,6 +26,8 @@ $to can be any of the following:
 *  an array of recipients in either above format, keyed by type e.g. array('to' => 'test@example.com', 'cc' => array('test2@example.com', 'Jane Doe'), 'bcc' => 'another@example.com')
 
 $from can be either a string email or array of email and name as above
+
+$attachments can be either an array of pathnames or an array of arrays of name and content
 
 More complex email (multipart, attachments, batch mailing etc.) must be done using the native Swift_Mailer classes. The Swift Mailer autoloader is included by connect() so you can use and class in the Swift library without worrying about including files.
 
