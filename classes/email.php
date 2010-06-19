@@ -78,9 +78,10 @@ class Email {
 	 * @param   string        message subject
 	 * @param   string        message body
 	 * @param   boolean       send email as HTML
+	 * @param   array         attachments: filenames or arrays of name, content
 	 * @return  integer       number of emails sent
 	 */
-	public static function send($to, $from, $subject, $message, $html = FALSE)
+	public static function send($to, $from, $subject, $message, $html = FALSE, $attachments = NULL)
 	{
 		// Connect to SwiftMailer
 		(Email::$mail === NULL) and Email::connect();
@@ -139,6 +140,18 @@ class Email {
 			$message->setFrom($from[0], $from[1]);
 		}
 
+		if ( ! empty( $attachments ) ) {
+			foreach( $attachments as $attach ) {
+				if ( is_array( $attach ) ) { 
+					//Create the attachment with your data
+					$message->attach(Swift_Attachment::newInstance( $attach['content'], $attach['name'], File::mime_by_ext($attach['name']) ));
+				}
+				else { 
+					//attachments by path
+		  			$message->attach(Swift_Attachment::fromPath( $attach ));
+				}
+			}
+		}
 		return Email::$mail->send($message);
 	}
 
